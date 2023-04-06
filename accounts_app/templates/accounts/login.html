@@ -1,0 +1,51 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+{% block main-content %}
+
+<div class="container">
+ <div class="row my-3">
+   <div class="col-sm-6 offset-sm-3">
+         <style>
+         .errorlist{
+            list-style: none;
+            color: red;
+         }
+         </style>
+
+         <form action="" method="post" novalidate class="shadow p-5">
+            <h3>Welcome back!</h3> <hr>
+         
+            {% csrf_token %}
+
+            <!---- form non field errors------>
+               <div class="errorlist">
+                  {% if form.non_field_errors %}
+                  {% for error in form.non_field_errors %}
+                  <p class=" my-3"><strong> {{error}} </strong></p>
+                  {% endfor %}
+                  {% endif %}
+               </div>
+            <!----End form non field errors------>
+            
+            <!--- fetching all form fields using for loop here ------>
+               {% for field in form  %}
+                  {{field.label_tag}}
+                  {{field}}
+                  <!--- if field have error than displaying errors -->
+                  {% if  field.errors %}
+                     <p class="errorlist"><strong> {{field.errors}}</strong> </p>
+                  {% endif %} <br>
+               {% endfor %} 
+            <!--- END field have error than displaying errors -->
+
+            <small><a href="{% url 'password_reset' %}">Forgot Password ?</a></small> <br>
+            <input type="submit" class="btn btn-primary mt-4" value="Login">
+            <br>
+            <div class="text-center text-primary fw-bold"><small>Create New Account ? <a href="{% url 'signup' %}"
+               class="text-danger">Create an Account</a> </small></div>
+         </form>
+   </div>
+ </div>
+</div>
+{% endblock main-content %}

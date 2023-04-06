@@ -1,0 +1,45 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+
+ <div class="row">
+       {% include 'accounts/sidebar.html' %}
+  </div>
+
+ 
+    <div class="col-sm-6 offset-sm-3 shadow" style='border:none;'>
+      <div class='row'>
+
+        {% for address in  all_address %}
+        
+      
+          <div class="col-sm-3" style="width: 18em">
+            <div class="card-body">
+              <h5 class="card-title">Name: {{address.name}} </h5>
+              <p class="card-text">City: {{address.city}}</p>
+              <p class="card-text">Pincode: {{address.pincode}}</p>
+
+              <p>State: {{address.state}} </p>
+              <button><a href="{% url 'update_address' address.id %}">Update Address</a></button>
+            </div>
+        </div>
+        {% endfor %}
+
+      
+
+       
+      
+       
+      
+      </div>
+         
+             
+
+
+  
+ </div>
+</div>
+{% endblock main-content %}
+

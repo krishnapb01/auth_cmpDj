@@ -1,0 +1,48 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+
+ <div class="row">
+    <div class="col-sm-6 offset-sm-3 shadow" style='border:none;'>
+      <style>
+        #profile{
+          align-items: center;
+          margin-left: 160px;
+          border: none;
+          border-radius: 450px;
+        
+        }
+        .inline{
+          display: inline;
+          margin-left: 70px;
+        }
+        
+      </style>
+    <div class="my-3" >
+      {% if  profile.pic %}
+    <img id='profile' height=250px  width=250px src="{{profile.pic.url}}"  class='text-center' height= width='400px' class="card-img-top my-2" alt="..."> 
+
+      
+      {% else %}
+    <img id='profile' height=250px  width=250px src="{% static 'images/download.png' %}"  class='text-center' height= width='400px' class="card-img-top" alt="...">
+
+
+      {% endif %}
+    <h4 class='my-4 text-center' >Welcome to Dashboard  {{request.user.username|capfirst}} </h4>
+
+      <div class="card-body">
+        <h5 class="card-title"><strong>Name: {{request.user.first_name|capfirst}} {{request.user.last_name|capfirst}} </strong>   <p class='inline'> Joined at: {{request.user.date_joined}} </p></h5>
+        <p class="card-text"><strong> Description:</strong> {{profile.bio}}</p>
+      </div>
+    </div>
+         
+             
+
+
+  
+ </div>
+</div>
+{% endblock main-content %}
+

@@ -1,0 +1,51 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% block title %}Signup{% endblock title %}
+{% block main-content %}
+<div class="container">
+ <div class="row my-3">
+  <div class="col-sm-6 offset-sm-3">
+   <style>
+    .errorlist{
+       list-style: none;
+       color: red;
+    }
+ </style>
+
+   <form action="" method="post" novalidate class="shadow p-5">
+   <h3>Singup here!</h3>
+      <hr>
+
+
+      <div class="errorlist">
+         {% if form.non_field_errors %}
+         {% for error in form.non_field_errors %}
+         <p class=" my-3"><strong>{{error}}</strong></p>
+         {% endfor %}
+         {% endif %}
+
+      </div>
+    {% csrf_token %}
+
+    {% for field in form  %}
+      {{field.label_tag}}
+      {{field}}
+            {% if  field.errors %}
+                <p class="errorlist"><strong>{{field.errors}}</strong></p>
+            {% endif %} <br>
+    {% endfor %} 
+    <div class="mb-3">
+    </div>
+
+   
+
+    <input type="submit" class="btn btn-primary mt-4" value="Signup">
+    <br>
+    
+    <div class="text-center text-primary fw-bold"><small>Already Have  Account ? <a href="{% url 'login' %}"
+       class="text-danger">Login an Account</a> </small></div>
+   </form>
+  </div>
+ </div>
+</div>
+{% endblock main-content %}

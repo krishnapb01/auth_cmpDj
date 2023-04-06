@@ -1,0 +1,25 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock title %}
+{% block main-content %}
+
+<div class="container my-5">
+ <div class="row">
+  {% include 'accounts/sidebar.html' %}
+ </div>
+
+  <div class="col-sm-8 offset-sm-1">
+    <div class="card" style="width: 18rem;">
+      <img src="{{user.pic.url}}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{user.username}}</h5>
+        <p class="card-text">{{profile.bio}}</p>
+        <a href="#" class="btn ">Thanks From You(Admin)</a>
+      </div>
+    </div>
+  
+ </div>
+</div>
+
+
+{% endblock main-content %}

@@ -13,11 +13,40 @@ from .models import Profile,Address
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+
+from django.conf import settings
+from django.core.mail import send_mail
+
+sub = "Welcome to django "
+msg = 'Please verify your account'
+
 
 class HomepageView(View):
     def get(self,request):
         # return render(request, 'accounts/login.html')
         return render(request, 'accounts_app/home.html')
+
+def get_activation_link(user):
+    
+    """this function will return unique email activation link """
+    
+    # first we generating unique uid
+    uid = urlsafe_base64_encode(force_bytes(user.id))
+    
+    # making token for user
+    token = PasswordResetTokenGenerator().make_token(user=user)
+    
+    # activation link
+    reset_link = 'http://localhost:8000/accounts/activate/confirm/'+uid+'/'+token+'/'
+    
+    return reset_link
+
+def send_mail_user():
+    pass
 
 class SignupView(View):
 
@@ -35,9 +64,14 @@ class SignupView(View):
             if form.is_valid():
                 uname = str(form.cleaned_data['username']).title()
                 user = form.save()
-                group  = Group.objects.get(name = 'Author')
-                user.groups.add(group)
-                messages.success(request, f'Congrats {uname} Your Account Successfuly Created! and Added in Author Group')
+                user.is_active = False
+                user.save()
+                
+                activation_link = get_activation_link(user=user)
+                print('\n \n \n ')
+                print(activation_link)
+                
+                messages.success(request, f'Congrats {uname} Your Account Successfuly Created! and Please activate to continue login')
                 return redirect('login')
             return render(request, 'accounts/signup.html', {'form': form})
         else:
@@ -56,11 +90,16 @@ class LoginView(View):
             uname = form.cleaned_data.get('username', None)
             password = form.cleaned_data.get('password', None)
             user = authenticate(username=uname, password=password)
-            if user is not None:
-               login(request, user)
-               messages.success(request, f'Congrats {request.user.username} You have successfuly logged in dashboard ')
-               return redirect('dashboard')
-            
+            if user: # user exist 
+                if not user.is_active:
+                    messages.warning(request, 'Please activate your account for continue login')
+                    return render(request, 'accounts/login.html')
+                    
+                else:
+                    login(request, user)
+                    messages.success(request, f'Congrats {request.user.username} You have successfuly logged in dashboard ')
+                    return redirect('dashboard')
+                    
         return render(request, 'accounts/login.html',{'form': form})
             
 class DashboardView(LoginRequiredMixin,View):

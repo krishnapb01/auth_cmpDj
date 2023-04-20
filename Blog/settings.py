@@ -128,19 +128,20 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Email-Backend Configrations here
-EMAIL_BACKEND       = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST          = 'smtp.gmail.com'
-EMAIL_HOST_USER     = 'krishnayadav78887@gmail.com'
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS       = True
-EMAIL_PORT          = 587
-EMAIL_USE_SSL       = False
+
+# databasereal1437@
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+
+# EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = 'xxx@gmail.com'
+EMAIL_HOST_PASSWORD = 'xxx'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
 EMAIL_FILE_PATH     = BASE_DIR /'sent_emails'
 
-# password reset-timesout hai
-PASSWORD_RESET_TIMEOUT = 60*60
-
+PASSWORD_RESET_TIMEOUT = 300 # 5 minutes only after reset link will expire password link
 
 
 
